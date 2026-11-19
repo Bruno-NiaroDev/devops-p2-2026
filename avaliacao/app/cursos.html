@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cursos cadastrados</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>Todos os cursos</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome do curso</th>
+          <th>Instrutor</th>
+          <th>Preço</th>
+          <th>Vagas</th>
+        </tr>
+      </thead>
+      <tbody id="lista-cursos">
+        <tr><td colspan="5">Carregando...</td></tr>
+      </tbody>
+    </table>
+
+    <p id="mensagem" role="status"></p>
+
+    <p><a href="index.html">Voltar ao cadastro</a></p>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

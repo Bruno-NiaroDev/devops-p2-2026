@@ -1,0 +1,47 @@
+services:
+
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root123}
+      MYSQL_DATABASE: cursos
+      MYSQL_USER: cursos
+      MYSQL_PASSWORD: ${DB_PASSWORD:-cursos123}
+    volumes:
+      - dados_mysql:/var/lib/mysql
+    networks:
+      - rede_api
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-ucursos", "-p${DB_PASSWORD:-cursos123}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  api:
+    build: .
+    image: cursos-api:local
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: cursos
+      DB_PASSWORD: ${DB_PASSWORD:-cursos123}
+      DB_NAME: cursos
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost}
+    networks:
+      - rede_api
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
+
+networks:
+  rede_api:
+    driver: bridge
+
+volumes:
+  dados_mysql:
