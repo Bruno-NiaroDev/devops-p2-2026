@@ -31,7 +31,7 @@ avaliacao/
 │   └── cloud_init.yaml
 ├── ansible/
 │   ├── playbook.yml
-│   └── inventory          (gerado pelo tofu apply)
+│   └── inventory          (gerado/atualizado pelo tofu apply)
 ├── app/
 │   ├── Dockerfile
 │   ├── index.html
@@ -96,11 +96,21 @@ ansible-playbook -i inventory playbook.yml
 
 No final, o playbook mostra os endereços da aplicação web e da API.
 
-## Acesso à aplicação
+## Endereço de acesso à aplicação
 
-- **Aplicação web (VM1):** `http://IP_DA_VM1/` (saída `vm1_web_ip` do `tofu output`)
+Endereços do ambiente implantado no laboratório:
+
+| Serviço | Endereço |
+|---|---|
+| **Aplicação web (VM1) — cadastro** | http://192.168.122.43/ |
+| **Listagem de cursos (VM1)** | http://192.168.122.43/cursos.html |
+| **API REST (VM2)** | http://192.168.122.160:3000/cursos |
+
+Os IPs são atribuídos por DHCP pela rede `default` do libvirt. Se o ambiente for recriado em outra máquina, eles podem mudar: os novos endereços aparecem no `tofu output` (`vm1_web_ip` e `vm2_api_ip`) e no final da execução do playbook. Nesse caso, use:
+
+- **Aplicação web (VM1):** `http://IP_DA_VM1/`
 - **Listagem:** `http://IP_DA_VM1/cursos.html`, pelo link "Listar todos os cursos"
-- **API (VM2):** `http://IP_DA_VM2:3000/cursos` (saída `vm2_api_ip`)
+- **API (VM2):** `http://IP_DA_VM2:3000/cursos`
 
 Teste rápido da API:
 
